@@ -10,4 +10,7 @@ Plugin(source='scripting/server_info.sp')
 Package(
     name='release',
     plugins=Plugins('*'),
+    filegroups={
+        '.' : ['LICENSE', 'README.md']
+    },
 )
