@@ -6,3 +6,8 @@ Plugin(source='scripting/csgo_maxteamsize.sp')
 Plugin(source='scripting/csgo_pause.sp')
 Plugin(source='scripting/server_restarter.sp')
 Plugin(source='scripting/server_info.sp')
+
+Package(
+    name='release',
+    plugins=Plugins('*'),
+)
