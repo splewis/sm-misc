@@ -5,6 +5,10 @@ sm-misc
 
 This is a collection of various, mostly unrelated, sourcemod plugins. Most are for CS:GO. Some may be labelled as for CS:GO, but work more generally.
 
+## Requirements
+
+Sourcemod 1.7 or later. Plugins are currently intended to be compiled using the 1.7.2 compiler
+
 ## Downloads
 
 Since these plugins are small and unrelated, there is no stable, overall release. There are only [continuous builds](http://ci.splewis.net/job/sm-misc/lastSuccessfulBuild/) for them all. When using these, the version number of each plugin will be the build number.
@@ -12,7 +16,6 @@ Since these plugins are small and unrelated, there is no stable, overall release
 ## Installations
 
 Installation instructions vary by plugin. For most, you only need to move the plugin binary (the .smx file) into ``addons/sourcemod/plugins`` and you will be good to go. Some plugins may have cvars, and some might create a config file to set those cvars when the plugin first starts. Generally, those will be in ``cfg/sourcemod/<plugin_name>.cfg``.
-
 
 ## Plugin descriptions
 
