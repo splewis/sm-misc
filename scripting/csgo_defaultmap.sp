@@ -11,7 +11,7 @@
 #define DEFAULT_MAP "de_dust2"
 
 bool g_DoneMapChange;
-char g_DefaultMap[PLATFORM_MAX_PATH];
+char g_DefaultMap[PLATFORM_MAX_PATH + 1];
 
 public Plugin myinfo = {
     name = "[CS:GO] Default map setter",
@@ -29,7 +29,7 @@ public void OnPluginStart() {
 
 public void OnMapStart() {
     if (!g_DoneMapChange) {
-        char mapName[PLATFORM_MAX_PATH];
+        char mapName[PLATFORM_MAX_PATH + 1];
         GetCurrentMap(mapName, sizeof(mapName));
         if (!StrEqual(mapName, g_DefaultMap, false)) {
             // TODO: there's probably a better way of doing this.
@@ -48,39 +48,39 @@ public Action Timer_ChangeToDefaultMap(Handle timer) {
 }
 
 public void ReadDefaultMap() {
-    char path[PLATFORM_MAX_PATH];
+    char path[PLATFORM_MAX_PATH + 1];
     BuildPath(Path_SM, path, sizeof(path), DATA_FILE);
-    Handle file = OpenFile(path, "r");
-    if (file == INVALID_HANDLE) {
+    File file = OpenFile(path, "r");
+    if (file == null) {
         LogMessage("Failed to find default map file (%s)", path);
-        g_DefaultMap = "de_dust2";
-        WriteDefaultMap("de_dust2");
+        strcopy(g_DefaultMap, sizeof(g_DefaultMap), DEFAULT_MAP);
+        WriteDefaultMap(g_DefaultMap);
     } else {
         if (IsEndOfFile(file) || !ReadFileLine(file, g_DefaultMap, sizeof(g_DefaultMap))) {
             LogMessage("Failed to read default map file (%s)", path);
-            WriteDefaultMap("de_dust2");
-            g_DefaultMap = "de_dust2";
+            strcopy(g_DefaultMap, sizeof(g_DefaultMap), DEFAULT_MAP);
+            WriteDefaultMap(g_DefaultMap);
         }
         TrimString(g_DefaultMap);
-        CloseHandle(file);
+        delete file;
     }
 }
 
 public void WriteDefaultMap(const char[] map) {
     strcopy(g_DefaultMap, sizeof(g_DefaultMap), map);
-    char path[PLATFORM_MAX_PATH];
+    char path[PLATFORM_MAX_PATH + 1];
     BuildPath(Path_SM, path, sizeof(path), DATA_FILE);
-    Handle file = OpenFile(path, "w");
-    if (file == INVALID_HANDLE) {
+    File file = OpenFile(path, "w");
+    if (file == null) {
         LogError("Failed to write out default map file (%s)", path);
     } else {
-        WriteFileLine(file, map);
-        CloseHandle(file);
+        file.WriteLine(map);
+        delete file;
     }
 }
 
 public Action Command_SetDefaultMap(int client, int args) {
-    char arg1[64];
+    char arg1[PLATFORM_MAX_PATH + 1];
     if (args >= 1 && GetCmdArg(1, arg1, sizeof(arg1))) {
         WriteDefaultMap(arg1);
         ReplyToCommand(client, "The default map has been set to %s", arg1);
