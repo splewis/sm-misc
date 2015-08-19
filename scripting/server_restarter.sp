@@ -24,6 +24,7 @@ public void OnPluginStart() {
     g_MinRuntime = CreateConVar("sm_restarter_min_runtime", "14400", "minimum time, in seconds, the server must be running before it is eligible to be restarted");
     AutoExecConfig();
     g_InitTime = GetTime();
+    RegConsoleCmd("sm_uptime", Command_Uptime);
 }
 
 public void OnConfigsExecuted() {
@@ -57,4 +58,9 @@ public int CountPlayers() {
 
 public bool IsPlayer(int client) {
     return IsClientConnected(client) && IsClientInGame(client) && !IsFakeClient(client);
+}
+
+public Action Command_Uptime(int client, int args) {
+    int dt = GetTime() - g_InitTime;
+    ReplyToCommand(client, "The server has been running for %.2f hours (%d seconds)", dt / 3600.0, dt);
 }
