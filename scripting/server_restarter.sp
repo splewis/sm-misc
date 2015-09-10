@@ -63,4 +63,5 @@ public bool IsPlayer(int client) {
 public Action Command_Uptime(int client, int args) {
     int dt = GetTime() - g_InitTime;
     ReplyToCommand(client, "The server has been running for %.2f hours (%d seconds)", dt / 3600.0, dt);
+    return Plugin_Handled;
 }
