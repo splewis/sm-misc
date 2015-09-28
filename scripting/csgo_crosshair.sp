@@ -16,12 +16,10 @@ char kClientCrosshairCvars[][] = {
     "cl_crosshaircolor_g",
     "cl_crosshaircolor_r",
     "cl_crosshairdot",
-    "cl_crosshairdrawalpha",
     "cl_crosshairgap",
     "cl_crosshairsize",
     "cl_crosshairstyle",
     "cl_crosshairthickness",
-    "cl_crosshairusealpha",
     "cl_fixedcrosshairgap",
 };
 const int kNumClientCrosshairCvars = sizeof(kClientCrosshairCvars);
@@ -90,11 +88,11 @@ stock void PrintCrosshairSettings(int client, int target, bool original=false) {
 
     for (int i = 0; i < kNumClientCrosshairCvars; i++) {
         if (original) {
-            PrintToConsole(client, "%s %s",
+            PrintToConsole(client, "%s %s;",
                 kClientCrosshairCvars[i],
                 g_OriginalClientCvarValues[target][i]);
         } else {
-            PrintToConsole(client, "%s %s",
+            PrintToConsole(client, "%s %s;",
                 kClientCrosshairCvars[i],
                 g_CurrentClientCvarValues[target][i]);
         }
