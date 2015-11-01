@@ -11,11 +11,12 @@ ConVar g_RestartUpdateEnabled;
 
 int g_InitTime = 0;
 int g_MapInitTime = 0;
+bool g_RestartSignal = false;
 
 public Plugin myinfo = {
-    name = "Server restarter",
+    name = "[CS:GO] Server restarter",
     author = "splewis",
-    description = "Periodically uses a _restart command when the server is empty",
+    description = "Periodically uses a _restart command when the server is empty or needs an update",
     version = VERSION,
     url = "https://github.com/splewis/sm-misc"
 };
@@ -27,6 +28,7 @@ public void OnPluginStart() {
     AutoExecConfig();
     g_InitTime = GetTime();
     RegConsoleCmd("sm_uptime", Command_Uptime);
+    HookEvent("cs_win_panel_match", Event_MatchOver);
 }
 
 public void OnConfigsExecuted() {
@@ -77,10 +79,17 @@ public Action Command_Uptime(int client, int args) {
     return Plugin_Handled;
 }
 
+public Action Event_MatchOver(Event event, const char[] name, bool dontBroadcast) {
+    if (g_RestartSignal) {
+        PrintToChatAll("A game update has been found. \x04The server is being automatically updated and restarted.");
+        CreateTimer(0.5, Timer_RestartServer);
+        g_RestartSignal = false;
+    }
+}
+
 public void SteamWorks_RestartRequested() {
     if (g_RestartUpdateEnabled.IntValue != 0) {
         LogMessage("SteamWorks_RestartRequested");
-        PrintToChatAll("A game update has been found. \x04The server is being automatically updated and restarted.");
-        CreateTimer(10.0, Timer_RestartServer);
+        g_RestartSignal = true;
     }
 }

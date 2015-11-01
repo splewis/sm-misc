@@ -4,9 +4,9 @@ Plugin(source='scripting/csgo_damageprint.sp')
 Plugin(source='scripting/csgo_defaultmap.sp')
 Plugin(source='scripting/csgo_maxteamsize.sp')
 Plugin(source='scripting/csgo_pause.sp')
+Plugin(source='scripting/csgo_server_restarter.sp')
 Plugin(source='scripting/csgo_specid.sp')
 Plugin(source='scripting/server_info.sp')
-Plugin(source='scripting/server_restarter.sp')
 
 Package(
     name='release',
