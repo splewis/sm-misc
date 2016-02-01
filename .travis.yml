@@ -19,8 +19,12 @@ before_script:
     - chmod +x spcomp
     - PATH+=":$PWD"
 
-    # install smlib
     - cd include
+
+    # get pugsetup include
+    - wget https://raw.githubusercontent.com/splewis/csgo-pug-setup/master/scripting/include/pugsetup.inc
+
+    # install smlib
     - git clone https://github.com/bcserv/smlib
     - cp -r smlib/scripting/include/* .
     - cd ../../../..
