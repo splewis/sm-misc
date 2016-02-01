@@ -22,7 +22,7 @@ public Plugin myinfo = {
 public void OnPluginStart() {
     g_MapListName1 = CreateConVar("sm_pugsetup_maplist_option1", "maps.txt");
     g_MapListName2 = CreateConVar("sm_pugsetup_maplist_option2", "maps.txt");
-    AutoExecConfig();
+    AutoExecConfig(true, "pugsetup_maplist_toggle", "sourcemod/pugsetup");
 }
 
 public Action PugSetup_OnSetupMenuOpen(int client, Menu menu, bool displayOnly) {
