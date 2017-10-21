@@ -10,6 +10,7 @@
 ConVar g_hEnabled;
 ConVar g_hAllowDmgCommand;
 ConVar g_hMessageFormat;
+ConVar g_ExcludeBots;
 
 int g_DamageDone[MAXPLAYERS+1][MAXPLAYERS+1];
 int g_DamageDoneHits[MAXPLAYERS+1][MAXPLAYERS+1];
@@ -26,6 +27,7 @@ public void OnPluginStart() {
     g_hEnabled = CreateConVar("sm_damageprint_enabled", "1", "Whether the plugin is enabled");
     g_hAllowDmgCommand = CreateConVar("sm_damageprint_allow_dmg_command", "1", "Whether players can type .dmg to see damage done");
     g_hMessageFormat = CreateConVar("sm_damageprint_format", "--> ({DMG_TO} dmg / {HITS_TO} hits) to ({DMG_FROM} dmg / {HITS_FROM} hits) from {NAME} ({HEALTH} HP)", "Format of the damage output string. Avaliable tags are in the default, color tags such as {LIGHT_RED} and {GREEN} also work.");
+    g_ExcludeBots = CreateConVar("sm_damageprint_exclude_bots", "0", "Whether to exclude bots in damage reports");
 
     AutoExecConfig();
     RegConsoleCmd("sm_dmg", Command_Damage, "Displays damage done");
@@ -48,6 +50,10 @@ static void PrintDamageInfo(int client) {
     int otherTeam = (team == CS_TEAM_T) ? CS_TEAM_CT : CS_TEAM_T;
     for (int i = 1; i <= MaxClients; i++) {
         if (IsValidClient(i) && GetClientTeam(i) == otherTeam) {
+            if (g_ExcludeBots.IntValue != 0 && IsFakeClient(i)) {
+                continue;
+            }
+
             int health = IsPlayerAlive(i) ? GetClientHealth(i) : 0;
             char name[64];
             GetClientName(i, name, sizeof(name));
