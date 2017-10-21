@@ -19,6 +19,7 @@ public Plugin myinfo = {
 public void OnPluginStart() {
   HookEvent("round_start", Event_FixComms);
   HookEvent("player_death", Event_FixComms);
+  HookEvent("player_spawn", Event_FixComms);
   HookEvent("round_freeze_end", Event_FixComms);
 }
 
@@ -31,13 +32,19 @@ public void Event_FixComms(Event event, const char[] round, bool dontBroadcast) 
 }
 
 public void FixComms() {
+  // i = coach, j = player
   for (int i = 1; i <= MaxClients; i++) {
     if (IsPlayer(i) && IsClientCoaching(i)) {
       int team = GetCoachTeam(i);
       for (int j = 1; j <= MaxClients; j++) {
-        if (i != j && IsPlayer(j) && GetClientTeam(j) == team && !IsPlayerAlive(j)) {
-          SetListenOverride(i, j, Listen_Yes);
-          SetListenOverride(j, i, Listen_Yes);
+        if (i != j && IsPlayer(j) && GetClientTeam(j) == team) {
+          if (IsPlayerAlive(j)) {
+            SetListenOverride(i, j, Listen_Default);
+            SetListenOverride(j, i, Listen_Default);
+          } else {
+            SetListenOverride(i, j, Listen_Yes);
+            SetListenOverride(j, i, Listen_Yes);
+          }
         }
       }
     }
