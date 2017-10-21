@@ -19,15 +19,26 @@ public Plugin myinfo = {
 public void OnPluginStart() {
   HookEvent("round_start", Event_FixComms);
   HookEvent("player_death", Event_FixComms);
+  HookEvent("switch_team", Event_FixComms);
   HookEvent("player_spawn", Event_FixComms);
   HookEvent("round_freeze_end", Event_FixComms);
+  AddCommandListener(Command_FixComms, "coach");
+  AddCommandListener(Command_FixComms, "jointeam");
 }
 
 public void OnMapStart() {
   FixComms();
 }
 
+public Action Command_FixComms(int client, const char[] command, int argc) {
+  FixComms();
+}
+
 public void Event_FixComms(Event event, const char[] round, bool dontBroadcast) {
+  CreateTimer(0.1, Timer_FixComms);
+}
+
+public Action Timer_FixComms(Handle timer) {
   FixComms();
 }
 
@@ -37,13 +48,28 @@ public void FixComms() {
     if (IsPlayer(i) && IsClientCoaching(i)) {
       int team = GetCoachTeam(i);
       for (int j = 1; j <= MaxClients; j++) {
-        if (i != j && IsPlayer(j) && GetClientTeam(j) == team) {
+        if (i == j || !IsPlayer(j)) {
+          continue;
+        }
+
+        // same team
+        if (GetClientTeam(j) == team) {
           if (IsPlayerAlive(j)) {
             SetListenOverride(i, j, Listen_Default);
             SetListenOverride(j, i, Listen_Default);
           } else {
             SetListenOverride(i, j, Listen_Yes);
             SetListenOverride(j, i, Listen_Yes);
+          }
+
+        // Diff team
+        } else {
+          if (IsPlayerAlive(j)) {
+            SetListenOverride(i, j, Listen_Default);
+            SetListenOverride(j, i, Listen_Default);
+          } else {
+            SetListenOverride(i, j, Listen_Default);
+            SetListenOverride(j, i, Listen_Default);
           }
         }
       }
