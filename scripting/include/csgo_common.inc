@@ -103,3 +103,15 @@ stock void Unpause() {
 stock void RestartGame(int delay) {
     ServerCommand("mp_restartgame %d", delay);
 }
+
+stock bool IsClientCoaching(int client) {
+  return GetClientTeam(client) == CS_TEAM_SPECTATOR && GetCoachTeam(client) != 0;
+}
+
+stock int GetCoachTeam(int client) {
+  return GetEntProp(client, Prop_Send, "m_iCoachingTeam");
+}
+
+stock void UpdateCoachTarget(int client, int csTeam) {
+  SetEntProp(client, Prop_Send, "m_iCoachingTeam", csTeam);
+}

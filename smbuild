@@ -2,12 +2,13 @@ Plugin(source='scripting/csgo_blockradio.sp')
 Plugin(source='scripting/csgo_crosshair.sp')
 Plugin(source='scripting/csgo_damageprint.sp')
 Plugin(source='scripting/csgo_defaultmap.sp')
+Plugin(source='scripting/csgo_hearcoach.sp')
 Plugin(source='scripting/csgo_maxteamsize.sp')
 Plugin(source='scripting/csgo_pause.sp')
 Plugin(source='scripting/csgo_server_restarter.sp')
 Plugin(source='scripting/csgo_specid.sp')
-Plugin(source='scripting/server_info.sp')
 Plugin(source='scripting/pugsetup_maplist_toggle.sp')
+Plugin(source='scripting/server_info.sp')
 
 Package(
     name='release',
