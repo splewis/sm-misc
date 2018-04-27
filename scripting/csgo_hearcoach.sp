@@ -42,6 +42,16 @@ public Action Timer_FixComms(Handle timer) {
   FixComms();
 }
 
+public int GetTeam(int client) {
+  int csTeam = GetClientTeam(client);
+  if (csTeam == CS_TEAM_SPECTATOR) {
+    if (IsClientCoaching(client)) {
+      return GetCoachTeam(client);
+    }
+  }
+  return csTeam;
+}
+
 public void FixComms() {
   // i = coach, j = player
   for (int i = 1; i <= MaxClients; i++) {
@@ -53,7 +63,7 @@ public void FixComms() {
         }
 
         // same team
-        if (GetClientTeam(j) == team) {
+        if (GetTeam(j) == team) {
           if (IsPlayerAlive(j)) {
             SetListenOverride(i, j, Listen_Default);
             SetListenOverride(j, i, Listen_Default);

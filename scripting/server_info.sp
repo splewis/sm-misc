@@ -3,6 +3,9 @@
 
 #include "include/common.inc"
 
+#undef REQUIRE_EXTENSIONS
+#include <SteamWorks>
+
 #pragma semicolon 1
 #pragma newdecls required
 
@@ -22,11 +25,19 @@ public void OnPluginStart() {
 }
 
 public Action Command_Info(int client, int args) {
-    char ip[64];
-    Server_GetIPString(ip, sizeof(ip));
+    char ipString[64];
+    if (GetFeatureStatus(FeatureType_Native, "SteamWorks_GetPublicIP") == FeatureStatus_Available) {
+        int ipaddr[4];
+        SteamWorks_GetPublicIP(ipaddr);
+        Format(ipString, sizeof(ipString), "%d.%d.%d.%d",
+            ipaddr[0], ipaddr[1], ipaddr[2], ipaddr[3]);
+
+    } else {
+        Server_GetIPString(ipString, sizeof(ipString));
+    }
 
     char server[64];
-    Format(server, sizeof(server), "%s:%d", ip, Server_GetPort());
+    Format(server, sizeof(server), "%s:%d", ipString, Server_GetPort());
 
     if (g_PasswordCvar == null) {
         ReplyToCommand(client, "connect %s", server);
@@ -39,4 +50,6 @@ public Action Command_Info(int client, int args) {
             ReplyToCommand(client, "connect %s; password %s", server, password);
         }
     }
+
+    return Plugin_Handled;
 }
