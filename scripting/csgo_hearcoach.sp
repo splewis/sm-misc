@@ -91,7 +91,7 @@ public Action OnClientSayCommand(int client, const char[] command, const char[] 
   if (IsPlayer(client) && IsClientCoaching(client) && StrEqual(command, "say_team")) {
     int team = GetCoachTeam(client);
     for (int i = 1; i <= MaxClients; i++) {
-      if (client != i && IsPlayer(i) && GetClientTeam(i) == team && !IsPlayerAlive(i)) {
+      if (client != i && IsPlayer(i) && GetTeam(i) == team && !IsPlayerAlive(i)) {
         // We could try sending a user message here and it might look more natural ingame.
         // This works well enough, though.
         if (team == CS_TEAM_CT) {
