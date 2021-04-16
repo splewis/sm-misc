@@ -20,13 +20,13 @@ public Plugin myinfo = {
     author = "splewis",
     description = "Writes out player damage on round end or when .dmg is used",
     version = "1.0.0",
-    url = "https://github.com/splewis/sm-misc"
+    
 };
 
 public void OnPluginStart() {
     g_hEnabled = CreateConVar("sm_damageprint_enabled", "1", "Whether the plugin is enabled");
     g_hAllowDmgCommand = CreateConVar("sm_damageprint_allow_dmg_command", "1", "Whether players can type .dmg to see damage done");
-    g_hMessageFormat = CreateConVar("sm_damageprint_format", "--> ({DMG_TO} dmg / {HITS_TO} hits) to ({DMG_FROM} dmg / {HITS_FROM} hits) from {NAME} ({HEALTH} HP)", "Format of the damage output string. Avaliable tags are in the default, color tags such as {LIGHT_RED} and {GREEN} also work.");
+    g_hMessageFormat = CreateConVar("sm_damageprint_format", "{GREEN}[FACEIT] To:({DMG_TO} dmg / {HITS_TO} hits) From ({DMG_FROM} dmg / {HITS_FROM} hits) - {NAME} ({HEALTH} HP){GREEN}", "Format of the damage output string. Avaliable tags are in the default, color tags such as {LIGHT_RED} and {GREEN} also work.");
     g_ExcludeBots = CreateConVar("sm_damageprint_exclude_bots", "0", "Whether to exclude bots in damage reports");
 
     AutoExecConfig();
