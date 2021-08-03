@@ -11,7 +11,9 @@ Sourcemod 1.7 or later. Plugins are currently intended to be compiled using the 
 
 ## Downloads
 
-Since these plugins are small and unrelated, there is no stable, overall release. There are only [continuous builds](http://ci.splewis.net/job/sm-misc/lastSuccessfulBuild/) for them all. When using these, the version number of each plugin will be the build number.
+You may find some compiled versions of the plugins at http://dl.whiffcity.com/plugins/sm-misc. The only file you need to downloads is the `.smx` file.
+
+There are also [continuous builds](http://ci.splewis.net/job/sm-misc/lastSuccessfulBuild/) available for the plugins. These will be more recent than the plugin versions at http://dl.whiffcity.com/plugins/sm-misc.
 
 ## Installations
 
