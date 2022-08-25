@@ -29,4 +29,7 @@ public void OnClientSayCommand_Post(int client, const char[] command, const char
       PrintToChat(client, "Join CT or T first, then type .coach again");
     }
   }
+  if (StrEqual(sArgs, ".uncoach", false)) {
+    ChangeClientTeam(client, CS_TEAM_SPECTATOR);
+  }
 }
