@@ -31,5 +31,6 @@ public void OnClientSayCommand_Post(int client, const char[] command, const char
   }
   if (StrEqual(sArgs, ".uncoach", false)) {
     ChangeClientTeam(client, CS_TEAM_SPECTATOR);
+    UpdateCoachTarget(client, 0);
   }
 }
