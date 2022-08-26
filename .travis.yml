@@ -3,6 +3,8 @@ sudo: false
 addons:
     apt_packages:
         - lib32stdc++6  # needed for spcomp
+env:
+    - SMVERSION=1.9
 
 before_script:
     # install smbuilder
@@ -13,8 +15,9 @@ before_script:
     - cd ..
 
     # install the sourcemod compiler
-    - wget http://www.gsptalk.com/mirror/sourcemod/sourcemod-1.7.2-linux.tar.gz
-    - tar -xzf sourcemod-1.7.2-linux.tar.gz
+    - SMPACKAGE="http://sourcemod.net/latest.php?os=linux&version=${SMVERSION}"
+    - wget $SMPACKAGE
+    - tar xfz $(basename $SMPACKAGE)
     - cd addons/sourcemod/scripting/
     - chmod +x spcomp
     - PATH+=":$PWD"
@@ -34,6 +37,3 @@ before_script:
 
 script:
     - smbuilder --flags="-E"
-
-notifications:
-    email: false
