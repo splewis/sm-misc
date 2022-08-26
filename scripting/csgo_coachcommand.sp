@@ -33,5 +33,6 @@ public void OnClientSayCommand_Post(int client, const char[] command, const char
     ChangeClientTeam(client, CS_TEAM_SPECTATOR);
     UpdateCoachTarget(client, 0);
     PrintToChat(client, "You stopped coaching");
+    PrintToChatAll("%N has stopped coaching.", client);
   }
 }
